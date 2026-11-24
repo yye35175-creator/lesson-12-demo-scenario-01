@@ -1,0 +1,30 @@
+name: Integration
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: Build images
+        run: docker compose build backend frontend
+      - name: Start services
+        run: docker compose up -d --no-build --wait
+      - name: Run smoke tests
+        run: bash tests/run.sh --smoke
+      - name: Run full suite
+        run: bash tests/run.sh
+      - name: Print service logs
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop services
+        if: always()
+        run: docker compose down --volumes --remove-orphans

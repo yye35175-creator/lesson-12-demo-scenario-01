@@ -1,0 +1,29 @@
+name: Frontend PR
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Check frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          test -f index.html
+          test -f scripts/index.js
+          test -f scripts/http.js
+          node --check scripts/index.js
+          node --check scripts/http.js
+          npx --no-install htmlhint index.html
+          npx --no-install eslint scripts
+      - name: Build frontend image
+        run: docker compose build frontend
