@@ -1,0 +1,13 @@
+"""Persistence interface for the read-only inventory starter."""
+
+from typing import Protocol
+
+
+class DeskReads(Protocol):
+    def ready(self) -> bool: ...
+
+    def found_items(self) -> list[dict]: ...
+
+    def found_item(self, item_id: str) -> dict | None: ...
+
+    def claimants(self) -> list[dict]: ...

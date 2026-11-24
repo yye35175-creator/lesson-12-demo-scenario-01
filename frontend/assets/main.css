@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  background: #f3f6fa;
+  color: #17324d;
+  font: 1rem/1.6 system-ui, sans-serif;
+}
+
+main {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: white;
+}
+
+form {
+  display: grid;
+  justify-items: start;
+  gap: .7rem;
+}
+
+label {
+  display: grid;
+  gap: .2rem;
+}
+
+button, select, input {
+  max-width: 100%;
+  padding: .45rem;
+  font: inherit;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
